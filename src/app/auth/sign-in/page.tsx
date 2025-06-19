@@ -18,6 +18,11 @@ export default function Page(){
             const response = await axios.post('/api/v1/user/sign-in', data);
             console.log(response);
             if (response.status == 200) {
+                localStorage.setItem("userId", response.data?.data?._id)
+                localStorage.setItem("fullName", response.data?.data?.fullName)
+                localStorage.setItem("email", response.data?.data?.email)
+                localStorage.setItem("avatar", response.data?.data?.avatar)
+                localStorage.setItem("banner", response.data?.data?.banner)
                 reset()
                 router.push('/home')
             }

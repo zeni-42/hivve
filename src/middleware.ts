@@ -19,5 +19,7 @@ export const config = {
         '/',
         '/auth/:path*',
         '/home',
+        '/jobs',
+        '/plans'
     ],
 }

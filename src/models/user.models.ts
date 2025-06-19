@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, ObjectId, Schema } from "mongoose";
 
 interface userInterface extends Document {
     fullName: string,
@@ -10,7 +10,8 @@ interface userInterface extends Document {
     refreshToken: string,
     isPro: boolean,
     isVerified: boolean,
-    role: string
+    role: string,
+    postedJobs: [ObjectId]
 }
 
 const userSchema: Schema<userInterface> = new mongoose.Schema({
@@ -59,6 +60,13 @@ const userSchema: Schema<userInterface> = new mongoose.Schema({
         enum: ['jobseeker', 'employer', 'admin'],
         default: 'jobseeker'
     },
+    postedJobs: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Job',
+            index: true
+        }
+    ]
 }, { timestamps: true })
 
 export const User = mongoose.models.User as mongoose.Model<userInterface> || mongoose.model<userInterface>("User", userSchema)
