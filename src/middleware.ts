@@ -1,0 +1,23 @@
+import { NextResponse, NextRequest } from 'next/server'
+
+export function middleware(request: NextRequest) {
+    const path = request.nextUrl.pathname
+    const isPublicPath = path === '/auth/sign-up' || path === '/auth/sign-in' || path === '/'
+    const accessToken = request.cookies.get('accessToken')?.value
+
+    if (!isPublicPath && !accessToken) {
+        return NextResponse.redirect(new URL('/auth/sign-in', request.url))
+    }
+
+    if (isPublicPath && accessToken) {
+        return NextResponse.redirect(new URL('/home', request.url))
+    }
+}
+
+export const config = {
+    matcher: [
+        '/',
+        '/auth/:path*',
+        '/home',
+    ],
+}

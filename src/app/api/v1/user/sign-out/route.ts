@@ -23,7 +23,7 @@ export async function POST(request: Request) {
             return ResponseHelper.error('User not found', 404)
         }
 
-        const updateUser = await User.findByIdAndUpdate(
+        await User.findByIdAndUpdate(
             userId,
             {
                 $unset: {

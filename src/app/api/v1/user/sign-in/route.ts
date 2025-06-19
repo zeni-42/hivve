@@ -21,7 +21,7 @@ export async function POST(request: Request) {
             return ResponseHelper.error('User not found', 404)
         }
 
-        const isValidPassword = bcrypt.compare(user.password, password)
+        const isValidPassword = await bcrypt.compare(password, user?.password)
         if (!isValidPassword) {
             return ResponseHelper.error('Invalid credentials', 400)
         }
