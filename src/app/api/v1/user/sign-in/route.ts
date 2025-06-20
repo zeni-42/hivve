@@ -40,6 +40,6 @@ export async function POST(request: Request) {
 
     } catch (error: any) {
         logger(error.message, 'Failed to sign in user', 'warn')
-        return ResponseHelper.error('Failed to sign in user', 500)
+        return ResponseHelper.error('Failed to sign in user', 500, error)
     }
 }

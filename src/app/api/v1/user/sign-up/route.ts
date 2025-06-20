@@ -33,6 +33,6 @@ export async function POST(request: Request) {
         return ResponseHelper.success(userData, 'User signed up successfully', 201)
     } catch (error: any) {
         logger(error.message, 'Failed to sign up user', 'warn')
-        return ResponseHelper.error('Failed to sign up user', 500)
+        return ResponseHelper.error('Failed to sign up user', 500, error)
     }
 }

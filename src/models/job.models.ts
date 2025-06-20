@@ -36,9 +36,9 @@ const jobSchema: Schema<jobInterface> = new mongoose.Schema({
     },
     jobType: {
         type: String,
-        enum: ['full time', 'part time', 'internship'],
+        enum: ['fullTime', 'partTime', 'internship'],
         required: true,
-        default: 'full time'
+        default: 'fullTime'
     },
     postedBy: {
         type: Schema.Types.ObjectId,
@@ -49,7 +49,6 @@ const jobSchema: Schema<jobInterface> = new mongoose.Schema({
     lastDate: {
         type: Date,
         required: true,
-        
     }
 } , { timestamps: true })
 
