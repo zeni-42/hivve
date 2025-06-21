@@ -1,38 +1,53 @@
 'use client'
 import axios from "axios";
-import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { LoaderCircle } from "lucide-react";
+import { useUserStore } from "@/store/user.store";
 
 export default function Page(){
     const router = useRouter()
     const [ isLoading, setIsLoading ] = useState(false)
     const { register, handleSubmit, reset } = useForm()
+    const { setData } = useUserStore()
+
+    const hydrateStore = async () => {
+        try {
+            const response = await axios.get(`/api/v1/user`)
+            if (response.status == 200) {
+                setData(response.data?.data._id, response.data?.data?.fullName, response.data?.data?.email, response.data?.data?.avatar, response.data?.data?.banner)
+            }
+        } catch (error: any) {
+            if (error.response?.status === 401) {
+                router.push('/auth/sign-in');
+            } else {
+                toast.error(error.response?.data?.message || "Something went wrong");
+            }
+        }
+    }
 
     const handleRegisterUser = async (data:any) => {
-        setIsLoading(e => !e)
+        setIsLoading(true)
         try {
             const response = await axios.post('/api/v1/user/sign-in', data);
-            console.log(response);
-            if (response.status == 200) {
+            if (response.status == 200 && response.data?.data?.isNewbie == false) {
                 localStorage.setItem("userId", response.data?.data?._id)
-                localStorage.setItem("fullName", response.data?.data?.fullName)
-                localStorage.setItem("email", response.data?.data?.email)
-                localStorage.setItem("avatar", response.data?.data?.avatar)
-                localStorage.setItem("banner", response.data?.data?.banner)
                 reset()
                 router.push('/home')
+            } else if (response.status == 200 && response.data?.data?.isNewbie == true) {
+                localStorage.setItem("userId", response.data?.data?._id)
+                router.push('/update-avatar')
             }
         } catch (error: any) {
             toast.error(error.response.data.message)
         } finally {
-            setIsLoading(e => !e) 
+            setIsLoading(false)
+            hydrateStore()
         }
     }
-
 
     return (
         <>

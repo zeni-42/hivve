@@ -12,6 +12,7 @@ interface userInterface extends Document {
     isVerified: boolean,
     role: string,
     postedJobs: [ObjectId]
+    isNewbie: boolean
 }
 
 const userSchema: Schema<userInterface> = new mongoose.Schema({
@@ -60,13 +61,18 @@ const userSchema: Schema<userInterface> = new mongoose.Schema({
         enum: ['jobseeker', 'employer', 'admin'],
         default: 'jobseeker'
     },
+    isNewbie: {
+        type: Boolean,
+        required: true,
+        default: true
+    },
     postedJobs: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Job',
             index: true
         }
-    ]
+    ],
 }, { timestamps: true })
 
 export const User = mongoose.models.User as mongoose.Model<userInterface> || mongoose.model<userInterface>("User", userSchema)

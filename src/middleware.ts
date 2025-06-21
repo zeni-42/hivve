@@ -21,6 +21,7 @@ export const config = {
         '/home',
         '/jobs',
         '/jobs/:path*',
-        '/plans'
+        '/plans',
+        '/update-avatar'
     ],
 }
