@@ -14,20 +14,6 @@ export default function Page(){
     const { register, handleSubmit, reset } = useForm()
     const { setData } = useUserStore()
 
-    const hydrateStore = async () => {
-        try {
-            const response = await axios.get(`/api/v1/user`)
-            if (response.status == 200) {
-                setData(response.data?.data._id, response.data?.data?.fullName, response.data?.data?.email, response.data?.data?.avatar, response.data?.data?.banner)
-            }
-        } catch (error: any) {
-            if (error.response?.status === 401) {
-                router.push('/auth/sign-in');
-            } else {
-                toast.error(error.response?.data?.message || "Something went wrong");
-            }
-        }
-    }
 
     const handleRegisterUser = async (data:any) => {
         setIsLoading(true)
@@ -39,13 +25,12 @@ export default function Page(){
                 router.push('/home')
             } else if (response.status == 200 && response.data?.data?.isNewbie == true) {
                 localStorage.setItem("userId", response.data?.data?._id)
-                router.push('/update-avatar')
+                router.push('/update/avatar')
             }
         } catch (error: any) {
             toast.error(error.response.data.message)
         } finally {
             setIsLoading(false)
-            hydrateStore()
         }
     }
 

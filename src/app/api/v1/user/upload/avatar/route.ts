@@ -3,6 +3,7 @@ import cloudinary from "@/utils/cloudinary";
 import { CONNECTDB } from "@/utils/connectDB";
 import { logger } from "@/utils/logger";
 import ResponseHelper from "@/utils/ResponseHelper";
+import { unlinkSync } from "fs";
 import { writeFile } from "fs/promises";
 import { cookies } from "next/headers";
 import path from "path";
@@ -24,8 +25,9 @@ export async function POST(req: Request) {
 
     const bytes = await image.arrayBuffer()
     const buffer = Buffer.from(bytes)
-    const fileName = `avatar_${image.name}.png`;
-    const filePath = path.join("/tmp", fileName);
+    const fileName = `avatar_${image.name}`;
+    const cwd = process.cwd()
+    const filePath = path.join(cwd, '/public', fileName);
     await writeFile(filePath, buffer)
 
     try {
@@ -45,9 +47,11 @@ export async function POST(req: Request) {
             { avatar: result?.secure_url }
         )
 
-        return ResponseHelper.success({ avatar: user?.avatar }, "Profile picure added successfully")
+        return ResponseHelper.success({ avatar: user?.avatar }, "Profile picure added successfully", 200)
     } catch (error: any) {
         logger(error.message, 'Failed to update profile picture', 'warn')
         return ResponseHelper.error('Failed to update profile picture', 500, error)
+    } finally {
+        unlinkSync(filePath)
     }
 }
