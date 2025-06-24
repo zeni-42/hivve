@@ -18,7 +18,7 @@ const Navbar = React.memo(function Navbar (){
 
     return (
         <>
-        <div className="w-full h-16 border-b border-zinc-200 flex justify-between items-center" >
+        <div className="w-full h-16 bg-white border-b border-zinc-200 flex justify-between items-center" >
             <div className="w-1/3 h-full flex justify-center items-center" >
                 <h1 className="text-2xl font-semibold text-blue-700" >Hivve</h1>
             </div>
@@ -32,10 +32,10 @@ const Navbar = React.memo(function Navbar (){
                     <Plus /> <p>ADD</p>
                 </button>
                 <div className="flex justify-end items-center gap-2" >
-                    <Link href={'/profile'} >{fullName}</Link>
                     {
                         avatar && <Image src={avatar} alt="pfp" width={1000} height={1000} className="size-10 rounded-full" />
                     }
+                    <Link href={'/profile'} >{fullName}</Link>
                 </div>
             </div>
         </div>

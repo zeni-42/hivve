@@ -6,13 +6,11 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { LoaderCircle } from "lucide-react";
-import { useUserStore } from "@/store/user.store";
 
 export default function Page(){
     const router = useRouter()
     const [ isLoading, setIsLoading ] = useState(false)
     const { register, handleSubmit, reset } = useForm()
-    const { setData } = useUserStore()
 
 
     const handleRegisterUser = async (data:any) => {

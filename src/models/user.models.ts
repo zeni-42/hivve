@@ -58,8 +58,8 @@ const userSchema: Schema<userInterface> = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ['jobseeker', 'employer', 'admin'],
-        default: 'jobseeker'
+        enum: ['None', 'jobseeker', 'employer', 'admin'],
+        default: 'None'
     },
     isNewbie: {
         type: Boolean,

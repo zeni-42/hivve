@@ -1,5 +1,5 @@
 'use client'
-import { useUserStore } from "@/store/user.store";
+
 import axios from "axios";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -8,12 +8,11 @@ import { toast } from "react-toastify";
 
 export default function Page() {
     const { register, handleSubmit, reset } = useForm()
-    const userId = useUserStore((state) => state.userId)
     const router = useRouter()
 
     const handleAddJob = async (data: any) => {
         try {
-            const res = await axios.post('/api/v1/jobs/add-job', {...data, userId})
+            const res = await axios.post('/api/v1/jobs/add-job', {...data})
             if (res.status === 401) {
                 router.push('/auth/sign-in')
             } else if (res.status === 201) {

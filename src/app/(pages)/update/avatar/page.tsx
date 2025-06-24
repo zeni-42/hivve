@@ -60,7 +60,7 @@ export default function Page(){
         <div className="w-full h-screen">
             <div className="w-full h-20 flex justify-between items-center px-80" >
                 <h1 className="text-2xl font-medium" >Add a profile picture</h1>
-                <button onClick={() => router.push('/home')} className="text-md cursor-pointer w-40 h-3/5 bg-zinc-200 rounded-lg" > skip for now </button>
+                <button onClick={() => router.push('/update/banner')} className="text-md cursor-pointer w-40 h-3/5 bg-zinc-200 rounded-lg" > skip for now </button>
             </div>
             <div className="w-full h-[50vh] flex justify-center items-center flex-col gap-10" >
                 {

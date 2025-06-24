@@ -1,15 +1,15 @@
 'use client'
 
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import Navbar from "@/components/Navbar";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/user.store";
 
 export default function Page(){
     const { setData } = useUserStore()
     const router = useRouter()
+    const [role, setRole] = useState('')
 
     const fetchUserData = async () => {
         try {
@@ -20,12 +20,26 @@ export default function Page(){
                 localStorage.setItem("avatar", res.data?.data?.avatar)
                 localStorage.setItem("banner", res.data?.data?.banner)
                 setData(res.data?.data?.userId, res.data?.data?.fullName, res.data?.data?.email, res.data?.data?.avatar, res.data?.data?.banner)
+                setRole(res.data?.data?.role)
             }
         } catch (error:any) {
             if (error?.response?.status == 401) {
                 router.push('/auth/sign-in')
             } else {
                 toast.error(error.response?.data?.message)
+            }
+        }
+    }
+
+    const handleUpdateRole = async (s: string) => {
+        try {
+            const res = await axios.post('/api/v1/user/update/role', { roleType: s })
+            if (res.status == 200) {
+                setRole("changed")
+            }
+        } catch (error: any) {
+            if (error.response?.data == 401) {
+                router.push('/auth/sign-in')
             }
         }
     }
@@ -46,7 +60,20 @@ export default function Page(){
 
     return (
         <>
-        <Navbar />
+        <div className="w-full h-full bg-zinc-100 flex flex-col justify-start items-center py-5 ">
+            {
+                role == "None" ? (
+                <>
+                <div className="bg-white w-1/2 h-auto p-10 flex justify-center items-center flex-col gap-4 rounded" >
+                    <h1 className="text-lg font-medium" >You are here for ?</h1>
+                    <div className="w-full flex justify-center items-center gap-10" >
+                        <button onClick={() => handleUpdateRole("jobseeker")} className="w-60 h-10 border border-blue-600 bg-zinc-50 rounded text-black cursor-pointer" >I'm looking for job</button>
+                        <button onClick={() => handleUpdateRole("employer")} className="w-60 h-10 bg-blue-500 rounded text-white cursor-pointer" >I'm looking for talents</button>
+                    </div>
+                </div>
+                </>) : (null)
+            }
+        </div>
         </>
     )
 }

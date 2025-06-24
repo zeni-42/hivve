@@ -32,9 +32,9 @@ export default function Page(){
             fromData.append("banner", selectedFile)
             fromData.append("userId", userId)
             const res = await axios.post('/api/v1/user/upload/banner', fromData)
-            console.log(res);
             if (res.status == 200) {
                 localStorage.setItem("banner", res.data?.data?.banner)
+                await axios.post('/api/v1/user/update/newbie')
                 router.push('/home')
             }
         } catch (error: any) {
