@@ -10,6 +10,7 @@ interface userState {
     setAvatar: (av: string) => void,
     setBanner: (bn: string) => void,
     clearData: () => void,
+    hydrate: () => void,
 }
 
 export const useUserStore = create<userState>((set) => ({
@@ -46,4 +47,13 @@ export const useUserStore = create<userState>((set) => ({
             banner: '',
         }))
     },
+    hydrate: () => {
+        set(() => ({
+            userId: localStorage.getItem('userId') || '',
+            fullName: localStorage.getItem('fullName') || '',
+            email: localStorage.getItem('email') || '',
+            avatar: localStorage.getItem('avatar') || '',
+            banner: localStorage.getItem('banner') || '',
+        }))
+    }
 })) 

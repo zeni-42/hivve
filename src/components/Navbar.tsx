@@ -1,17 +1,20 @@
 'use client'
 
-import { useUserStore } from "@/store/user.store"
-import { Plus } from "lucide-react"
-import Image from "next/image"
+import React, { useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
+import { Plus } from "lucide-react"
+import { useUserStore } from "@/store/user.store"
 import { usePathname, useRouter } from "next/navigation"
-import React from "react"
 
 const Navbar = React.memo(function Navbar (){
     const router = useRouter()
     const pathname = usePathname()
-    const fullName = useUserStore((state) => state.fullName)
-    const avatar = useUserStore((state) => state.avatar)
+    const { fullName, avatar, hydrate } = useUserStore()
+
+    useEffect(() => {
+        hydrate()
+    }, [])
 
     return (
         <>
