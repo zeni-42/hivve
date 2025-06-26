@@ -60,7 +60,7 @@ export default function Page(){
 
     return (
         <>
-        <div className="w-full h-full bg-zinc-100 flex flex-col justify-start items-center py-5 ">
+        <div className="w-full h-[calc(100vh-4rem)] bg-zinc-100 flex flex-col justify-start items-center py-5 ">
             {
                 role == "None" ? (
                 <>

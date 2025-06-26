@@ -18,7 +18,7 @@ export async function GET(request: Request) {
     try {
         decodedToken = jwt.verify(token, secret)
     } catch (error) {
-        return ResponseHelper.error("Invalid or expired token token", 401)
+        return ResponseHelper.error("Invalid or expired token", 401)
     }
 
     const userId = decodedToken?._id!

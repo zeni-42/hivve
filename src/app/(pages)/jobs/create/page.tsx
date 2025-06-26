@@ -16,6 +16,7 @@ export default function Page() {
             if (res.status === 401) {
                 router.push('/auth/sign-in')
             } else if (res.status === 201) {
+                router.push('/jobs')
                 toast.success(res.data?.message)
                 reset()
             }
@@ -31,7 +32,7 @@ export default function Page() {
 
     return (
         <>
-        <div className="w-full h-screen flex justify-start items-center py-5 flex-col" >
+        <div className="w-full h-[calc(100vh-4rem)]] flex justify-start items-center py-5 flex-col mt-16" >
             <div className="w-3/5 h-20 flex justify-start items-center px-20 gap-10 " >
                 <button onClick={() => history.back()} className="bg-zinc-200 size-14 flex justify-center items-center cursor-pointer rounded-full" ><ArrowLeft /></button>
                 <h1 className="text-2xl font-medium" >Publish Job Listing</h1>
