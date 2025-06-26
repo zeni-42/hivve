@@ -4,6 +4,7 @@ import { logger } from "@/utils/logger";
 import ResponseHelper from "@/utils/ResponseHelper";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken"
+import mongoose from "mongoose";
 
 export async function GET(request: Request) {
     const cookie = await cookies()
@@ -28,14 +29,35 @@ export async function GET(request: Request) {
 
     try {
         await CONNECTDB()
-        const user = await User.findById(userId).select(
-            '-password -refreshToken'
-        );
+        const user = await User.findById(userId)
         if (!user) {
             return ResponseHelper.error("User not found", 404)
         }
 
-        return ResponseHelper.success(user, "User data", 200)
+        const userData = await User.aggregate([
+            {
+                $match: {
+                    _id: new mongoose.Types.ObjectId(userId)
+                }
+            },
+            {
+                $lookup: {
+                    from: "jobs",
+                    localField: "postedJobs",
+                    foreignField: "_id",
+                    as: "jobsData"
+                }
+            },
+            {
+                $project: {
+                    postedJobs: 0,
+                    password: 0,
+                    refreshToken: 0
+                }
+            }
+        ])
+
+        return ResponseHelper.success(userData, "User data", 200)
 
     } catch (error: any) {
         logger(error?.message, "Failed to retrieve user data", 'fatal')

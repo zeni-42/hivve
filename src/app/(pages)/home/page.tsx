@@ -15,12 +15,12 @@ export default function Page(){
         try {
             const res = await axios.get('/api/v1/user')
             if (res.status == 200) {
-                localStorage.setItem("fullName", res.data?.data?.fullName)
-                localStorage.setItem("email", res.data?.data?.email)
-                localStorage.setItem("avatar", res.data?.data?.avatar)
-                localStorage.setItem("banner", res.data?.data?.banner)
-                setData(res.data?.data?.userId, res.data?.data?.fullName, res.data?.data?.email, res.data?.data?.avatar, res.data?.data?.banner)
-                setRole(res.data?.data?.role)
+                localStorage.setItem("fullName", res.data?.data[0]?.fullName)
+                localStorage.setItem("email", res.data?.data[0]?.email)
+                localStorage.setItem("avatar", res.data?.data[0]?.avatar)
+                localStorage.setItem("banner", res.data?.data[0]?.banner)
+                setData(res.data?.data[0]?.userId, res.data?.data[0]?.fullName, res.data?.data[0]?.email, res.data?.data[0]?.avatar, res.data?.data[0]?.banner)
+                setRole(res.data?.data[0]?.role)
             }
         } catch (error:any) {
             if (error?.response?.status == 401) {
