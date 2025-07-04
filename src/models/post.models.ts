@@ -1,0 +1,34 @@
+import mongoose, { ObjectId, Schema } from "mongoose";
+interface postInterface {
+    content: string,
+    tags: [string],
+    images: [string],
+    userId: ObjectId,
+}
+
+const postSchema: Schema<postInterface> = new mongoose.Schema({
+    content: {
+        type: String,
+        required: true,
+        maxlength: 5000,
+        index: true
+    },
+    tags: [{
+        type: String,
+        unique: true,
+        trim: true,
+    }],
+    images: [{
+        type: String,
+        required: false,
+        index: true,
+        unique: true
+    }],
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    }
+}, { timestamps: true })
+
+export const Post = mongoose.models.Post as mongoose.Model<postInterface> || mongoose.model<postInterface>("Post", postSchema)

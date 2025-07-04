@@ -1,6 +1,6 @@
 'use client'
 import axios from "axios"
-import { ChevronRight, DollarSign, MapPin } from "lucide-react"
+import { DollarSign, MapPin } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -34,7 +34,7 @@ export default function Page(){
         <>
         <div className="w-full h-[calc(100vh-4rem)] bg-zinc-100" >
             <div className="w-full h-full flex justify-start items-center flex-col py-5 gap-3 ">
-                {
+                { jobs.length > 0 ? (
                     jobs.map((item: any) => (
                         <div key={item?._id} className="bg-white w-1/2 h-44 p-5 flex justify-between items-center rounded-lg ">
                             <div className="w-1/2 h-full flex justify-between items-start flex-col" >
@@ -59,6 +59,9 @@ export default function Page(){
                             </div>
                         </div>
                     ))
+                ) : (
+                    <p>No available jobs right now</p>
+                )
                 }
             </div>
         </div>

@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/user.store";
+import Image from "next/image";
+import { Images} from "lucide-react";
 
 export default function Page(){
-    const { setData } = useUserStore()
+    const { avatar, setData } = useUserStore()
     const router = useRouter()
     const [role, setRole] = useState('')
 
@@ -73,6 +75,21 @@ export default function Page(){
                 </div>
                 </>) : (null)
             }
+            <div className={`w-2/5 h-auto p-5 bg-white flex flex-col justify-center items-center gap-5 rounded-lg`} >
+                <div className="w-full flex justify-center items-center gap-5" >
+                    {
+                        avatar ? (
+                            <Image src={avatar} alt="avatar" width={60} height={60} className="size-12 rounded-full object-cover" />
+                        ) : (
+                            null
+                        )
+                    }
+                    <button onClick={() => router.push('/create/post')} className="cursor-pointer border-zinc-400 border outline-none w-4/5 h-12 rounded-xl px-5 flex justify-start items-center text-zinc-500">Whats going on in there ?</button>
+                    <button onClick={() => router.push('/create/post')} className="cursor-pointer size-10 flex justify-center items-center" >
+                        <Images className="text-zinc-500 cursor-pointer "/>
+                    </button>
+                </div>
+            </div>
         </div>
         </>
     )

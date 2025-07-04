@@ -22,6 +22,8 @@ export const config = {
         '/jobs',
         '/jobs/:path*',
         '/plans',
-        '/update/:path'
+        '/update/:path',
+        '/create/post',
+        '/create/:path*',
     ],
 }
