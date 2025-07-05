@@ -4,16 +4,21 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
 import Link from '@tiptap/extension-link'
-import { Bold, Italic, UnderlineIcon, Link2, Images } from 'lucide-react'
+import { Bold, Italic, UnderlineIcon, Link2, Images, Loader2 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { useUserStore } from '@/store/user.store'
+import { toast } from 'react-toastify'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 
 const Tiptap = () => {
+    const [isLoading, setIsLoading] = useState(false)
     const { hydrate } = useUserStore()
     const fileRef = useRef<HTMLInputElement>(null)
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
     const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null)
+    const router = useRouter()
 
     const handleImageClick = () => {
         fileRef.current?.click()
@@ -52,6 +57,33 @@ const Tiptap = () => {
     })
 
     if (!editor) return null
+
+    const handlePostData = async () => {
+        try {
+            setIsLoading(true)
+            const html = editor.getHTML()
+            if (!html || html === '<p></p>') {
+                toast.warn("Cannot save an empty post")
+                return
+            } 
+            const formData = new FormData()
+            formData.append("content", html)
+            if (selectedFile) formData.append("image", selectedFile);
+            const response = await axios.post('/api/v1/post/', formData, { withCredentials: true })
+            if (response.status == 200) {
+                toast.success("Post created successfully")
+                router.push('/home')
+            }
+        } catch (error: any) {
+            if (error?.response?.status == 401) {
+                router.push('/auth/sign-in')
+            } else {
+                toast.error(error?.response?.data.message)
+            }
+        } finally {
+            setIsLoading(false)
+        }
+    }
 
     return (
         <div>
@@ -105,6 +137,7 @@ const Tiptap = () => {
                 accept="image/*"
                 className="hidden" />
 
+        <div className='w-full mt-5 flex justify-center items-center flex-col gap-5' >
             {imagePreviewUrl && (
                 <div className="mt-4">
                     <Image
@@ -112,9 +145,15 @@ const Tiptap = () => {
                         alt="Selected"
                         width={1000}
                         height={1000}
-                        className="w-80 h-auto rounded border" />
+                        className="w-full h-auto rounded border" />
                 </div>
             )}
+                <button className='bg-blue-600 w-40 h-12 rounded text-white cursor-pointer' onClick={() => handlePostData()} >
+                    {
+                        isLoading ? (<span className='flex justify-center items-center w-full h-full'><Loader2 className='animate-spin' /></span>) : (<>Post</>) 
+                    }
+                </button>
+            </div>
         </div>
     )
 }

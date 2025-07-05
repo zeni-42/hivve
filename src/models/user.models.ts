@@ -13,6 +13,7 @@ interface userInterface extends Document {
     role: string,
     postedJobs: [ObjectId]
     isNewbie: boolean
+    post: [ObjectId]
 }
 
 const userSchema: Schema<userInterface> = new mongoose.Schema({
@@ -73,6 +74,11 @@ const userSchema: Schema<userInterface> = new mongoose.Schema({
             index: true
         }
     ],
+    post: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post',
+        index: true
+    }]
 }, { timestamps: true })
 
 export const User = mongoose.models.User as mongoose.Model<userInterface> || mongoose.model<userInterface>("User", userSchema)

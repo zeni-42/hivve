@@ -10,12 +10,11 @@ const postSchema: Schema<postInterface> = new mongoose.Schema({
     content: {
         type: String,
         required: true,
-        maxlength: 5000,
+        maxlength: 10000,
         index: true
     },
     tags: [{
         type: String,
-        unique: true,
         trim: true,
     }],
     images: [{
