@@ -9,7 +9,7 @@ const DBNAME = 'Hivve';
 
 export async function CONNECTDB(): Promise<void> {
     if (connection.isConnected) {
-        console.log('DB CON EXIST');
+        console.log('DB CONN EXIST');
     } 
 
     try {

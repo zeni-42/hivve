@@ -33,7 +33,6 @@ export default function Page(){
             form.append("image", selectedFile)
             form.append("userId", userId)
             const res = await axios.post('/api/v1/user/upload/avatar', form)
-            console.log(res);
             if (res.status == 200) {
                 localStorage.setItem("avatar", res.data?.data?.avatar)
                 toast.success("Profile picture updated")

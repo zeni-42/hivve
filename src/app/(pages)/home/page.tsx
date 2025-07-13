@@ -12,6 +12,7 @@ export default function Page(){
     const { avatar, setData } = useUserStore()
     const router = useRouter()
     const [role, setRole] = useState('')
+    const [initialPost, setInitialPost] = useState<any>([])
 
     const fetchUserData = async () => {
         try {
@@ -42,9 +43,30 @@ export default function Page(){
         } catch (error: any) {
             if (error.response?.data == 401) {
                 router.push('/auth/sign-in')
+            } else {
+                toast.error(error.response?.data?.message)
             }
         }
     }
+
+    const fetchPost = async () => {
+        try {
+            const res = await axios.get('/api/v1/post')
+            if (res.status == 200) {
+                setInitialPost(res.data?.data)
+            }
+        } catch (error:any) {
+            if (error.response?.data == 401) {
+                router.push('/auth/sign-in')
+            } else {
+                toast.error(error.response?.data?.message)
+            }
+        }
+    }
+
+    useEffect(() => {
+        fetchPost()
+    }, [])
 
     useEffect(() => {
         const userId = localStorage.getItem("userId")!
@@ -90,6 +112,45 @@ export default function Page(){
                     </button>
                 </div>
             </div>
+            {
+                initialPost?.length > 0 ? (
+                    <div className="w-2/5 mt-5 flex flex-col gap-5">
+                    {initialPost.map((post: any) => (
+                        <div key={post._id} className="w-full bg-white p-5 rounded-lg shadow-sm">
+                        <div className="flex items-center gap-4 mb-3">
+                            {post.userObj?.avatar ? (
+                            <Image
+                                src={post.userObj.avatar}
+                                alt="user avatar"
+                                width={40}
+                                height={40}
+                                className="size-10 rounded-full object-cover"
+                            />
+                            ) : null}
+                            <div>
+                            <p className="font-medium text-sm">{post.userObj?.fullName || "Unknown User"}</p>
+                            <p className="text-xs text-zinc-500">{new Date(post.createdAt).toLocaleString()}</p>
+                            </div>
+                        </div>
+
+                        <p className="text-base text-zinc-700 mb-2">{post.content}</p>
+
+                        {post.images && (
+                            <Image
+                            src={post.images}
+                            alt="post image"
+                            width={500}
+                            height={300}
+                            className="w-full rounded-lg object-cover mt-2"
+                            />
+                        )}
+                        </div>
+                    ))}
+                    </div>
+                ) : (
+                    <div className="text-zinc-500 mt-5">No posts found.</div>
+                )
+            }
         </div>
         </>
     )

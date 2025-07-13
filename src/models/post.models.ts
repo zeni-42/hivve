@@ -2,7 +2,7 @@ import mongoose, { ObjectId, Schema } from "mongoose";
 interface postInterface {
     content: string,
     tags: [string],
-    images: [string],
+    images: string,
     userId: ObjectId,
 }
 
@@ -17,12 +17,11 @@ const postSchema: Schema<postInterface> = new mongoose.Schema({
         type: String,
         trim: true,
     }],
-    images: [{
+    images: {
         type: String,
         required: false,
         index: true,
-        unique: true
-    }],
+    },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
