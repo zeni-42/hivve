@@ -133,7 +133,10 @@ export default function Page(){
                             </div>
                         </div>
 
-                        <p className="text-base text-zinc-700 mb-2">{post.content}</p>
+                        <div
+                        className="text-base text-zinc-700 mb-2 w-full"
+                        dangerouslySetInnerHTML={{ __html: post.content }}
+                        ></div>
 
                         {post.images && (
                             <Image

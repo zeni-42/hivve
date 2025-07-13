@@ -153,6 +153,9 @@ export async function GET(req: Request) {
                         "userObj.refreshToken": 0,
                         "userObj.post": 0
                     }
+                },
+                {
+                    $limit: 10
                 }
             ])
             if (!allPosts) {

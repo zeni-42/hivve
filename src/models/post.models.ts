@@ -4,6 +4,7 @@ interface postInterface {
     tags: [string],
     images: string,
     userId: ObjectId,
+    likedBy: [ObjectId]
 }
 
 const postSchema: Schema<postInterface> = new mongoose.Schema({
@@ -26,7 +27,11 @@ const postSchema: Schema<postInterface> = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
         required: true
-    }
+    },
+    likedBy: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    }]
 }, { timestamps: true })
 
 export const Post = mongoose.models.Post as mongoose.Model<postInterface> || mongoose.model<postInterface>("Post", postSchema)
