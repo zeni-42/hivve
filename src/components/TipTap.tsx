@@ -148,7 +148,7 @@ const Tiptap = () => {
                         className="w-full h-auto rounded border" />
                 </div>
             )}
-                <button className='bg-blue-600 w-40 h-12 rounded text-white cursor-pointer' onClick={() => handlePostData()} >
+                <button disabled={isLoading} className='bg-blue-600 w-40 h-12 rounded text-white cursor-pointer' onClick={() => handlePostData()} >
                     {
                         isLoading ? (<span className='flex justify-center items-center w-full h-full'><Loader2 className='animate-spin' /></span>) : (<>Post</>) 
                     }

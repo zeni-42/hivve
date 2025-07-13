@@ -106,7 +106,7 @@ const handleUpdateLike = async (id: string) => {
 
     return (
         <>
-        <div className="w-full h-auto bg-zinc-100 flex flex-col justify-start items-center py-5 ">
+        <div className={`w-full ${posts.length == 1 ? 'h-[calc(100vh-4rem)]' : 'h-auto'} bg-zinc-100 flex flex-col justify-start items-center py-5 `}>
             {
                 role == "None" ? (
                 <>

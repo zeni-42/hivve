@@ -65,7 +65,7 @@ export default function Page(){
                     selectedFile && <Image src={URL.createObjectURL(selectedFile)} alt="profile picture" width={1000} height={1000} className="w-4/5 h-[30vh] object-cover rounded-lg"/>
                 }
                 <input className=" rounded-lg border p-3" type="file" placeholder="Edit" onChange={(e) => handleFileChange(e as any)} />
-                <button className="w-40 py-3 bg-zinc-800 rounded-lg text-white cursor-pointer" onClick={() => handleUploadData() } >
+                <button disabled={isLoading} className="w-40 py-3 bg-zinc-800 rounded-lg text-white cursor-pointer" onClick={() => handleUploadData() } >
                     {
                         isLoading ? (<><span className="w-full h-full flex justify-center items-center" ><Loader2 className="animate-spin" /></span></>) : (<>Upload</>)
                     }
