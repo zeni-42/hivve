@@ -28,8 +28,8 @@ export async function POST(request: Request) {
 
         const { accessToken, refreshToken }= await genToken(user?._id as ObjectId)
         const cookie = await cookies()
-        cookie.set('accessToken', accessToken, { secure: true, sameSite: true, httpOnly: true })
-        cookie.set('refreshToken', refreshToken, { secure: true, sameSite: true, httpOnly: true })
+        cookie.set('accessToken', accessToken, { secure: true, sameSite: "strict", httpOnly: true })
+        cookie.set('refreshToken', refreshToken, { secure: true, sameSite: "strict", httpOnly: true })
 
         const updatedUser = await User.findByIdAndUpdate(user._id, { refreshToken })
         const userData = await User.findById(updatedUser?._id).select(

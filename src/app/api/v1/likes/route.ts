@@ -3,7 +3,6 @@ import { cookies } from "next/headers"
 import jwt from "jsonwebtoken"
 import ResponseHelper from "@/utils/ResponseHelper"
 import { CONNECTDB } from "@/utils/connectDB"
-import { Like } from "@/models/like.models"
 import { User } from "@/models/user.models"
 import { logger } from "@/utils/logger"
 
@@ -48,21 +47,25 @@ export async function POST (req: Request) {
             return ResponseHelper.error("User not found", 404)
         }
 
-        await Like.create(
-            {
+        if (post.likedBy.includes(userId)) {
+            await Post.findByIdAndUpdate(
                 postId,
-                likedBy: userId
-            }
-        )
-
-        await Post.findByIdAndUpdate(
-            postId,
-            {
-                $addToSet: {
-                    likedBy: userId
+                {
+                    $pull: {
+                        likedBy: userId
+                    }
                 }
-            }
-        )
+            )
+        } else {
+            await Post.findByIdAndUpdate(
+                postId,
+                {
+                    $addToSet: {
+                        likedBy: userId
+                    }
+                }
+            )
+        }
 
         return ResponseHelper.success({}, "Likes added", 200)
     } catch (error:any) {

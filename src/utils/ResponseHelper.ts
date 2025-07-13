@@ -11,7 +11,7 @@ class ResponseHelper {
         );
     }
 
-    static error(message = "Somthing went wrong", status = 400, errors: any = null): Response {
+    static error(message = "Somthing went wrong", status = 400, errors: unknown = null): Response {
         return new Response(
             JSON.stringify({
                 status,

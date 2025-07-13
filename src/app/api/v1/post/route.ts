@@ -156,6 +156,9 @@ export async function GET(req: Request) {
                 },
                 {
                     $limit: 10
+                },
+                {
+                    $sort: { _id: -1 }
                 }
             ])
             if (!allPosts) {
