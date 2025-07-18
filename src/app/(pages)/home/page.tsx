@@ -7,9 +7,10 @@ import { useRouter } from "next/navigation";
 import { useUserStore } from "@/store/user.store";
 import Image from "next/image";
 import { Images, ThumbsUp} from "lucide-react";
+import Link from "next/link";
 
 export default function Page(){
-    const { avatar, setData, userId } = useUserStore()
+    const { avatar, setData } = useUserStore()
     const router = useRouter()
     const [role, setRole] = useState('')
     const [posts, setPost] = useState<any>([])
@@ -119,7 +120,7 @@ const handleUpdateLike = async (id: string) => {
                 </div>
                 </>) : (null)
             }
-            <div className={`w-2/5 h-auto p-5 bg-white flex flex-col justify-center items-center gap-5 rounded-lg`} >
+            <div className={`w-2/6 h-auto p-5 bg-white flex flex-col justify-center items-center gap-5 rounded-lg`} >
                 <div className="w-full flex justify-center items-center gap-5" >
                     {
                         avatar ? (
@@ -138,18 +139,20 @@ const handleUpdateLike = async (id: string) => {
                 isLoading ? (
                     <div className="text-zinc-500 mt-5">Loading posts...</div>
                 ) : posts?.length > 0 ? (
-                    <div className="w-2/5 mt-5 flex flex-col gap-5">
+                    <div className="w-2/6 mt-5 flex flex-col gap-5">
                         {posts.map((post: any) => (
                             <div key={post._id} className="w-full bg-white p-5 rounded-lg shadow-sm">
                                 <div className="flex items-center gap-4 mb-3">
                                     {post.userObj?.avatar && (
+                                        <Link href={`/user/${post?._id}`} >
                                         <Image
                                             src={post.userObj.avatar}
                                             alt="user avatar"
                                             width={40}
                                             height={40}
                                             className="size-10 rounded-full object-cover"
-                                        />
+                                            />
+                                        </Link>
                                     )}
                                     <div>
                                         <p className="font-medium text-sm">{post.userObj?.fullName || "Unknown User"}</p>
@@ -162,22 +165,24 @@ const handleUpdateLike = async (id: string) => {
                                     dangerouslySetInnerHTML={{ __html: post.content }}
                                 ></div>
 
-                                {post.images && (
+                                <div className="w-full flex justify-center items-center" >
+                                {post.images ? (
                                     <Image
-                                        src={post.images}
-                                        alt="post image"
-                                        width={500}
-                                        height={300}
-                                        className="w-full rounded-lg object-cover mt-2"
+                                    src={post.images}
+                                    alt="post image"
+                                    width={500}
+                                    height={300}
+                                    className="w-full rounded-lg object-cover mt-2"
                                     />
-                                )}
+                                ): null}
+                                </div>
 
                                 <div className="w-full mt-5 flex justify-start items-center gap-5">
                                 <button
                                     onClick={() => handleUpdateLike(post._id)}
                                     className={`w-20 border ${likedPosts.includes(post._id)
                                         ? "bg-blue-500 text-white border-none"
-                                        : ""} border-zinc-300 h-10 rounded flex justify-center items-center cursor-pointer`} >                                        
+                                        : ""} border-zinc-300 h-10 gap-3 rounded flex justify-center items-center cursor-pointer`} >                                        
                                     <ThumbsUp />
                                 </button>
                                 <input
