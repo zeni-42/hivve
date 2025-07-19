@@ -8,6 +8,7 @@ import { useUserStore } from "@/store/user.store";
 import Image from "next/image";
 import { Images, ThumbsUp} from "lucide-react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export default function Page(){
     const { avatar, setData } = useUserStore()
