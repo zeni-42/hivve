@@ -1,5 +1,5 @@
 class ResponseHelper {
-    static success(data: any = null, message = "Success", status = 200): Response {
+    static success(data: unknown = null, message = "Success", status = 200): Response {
         return new Response(
             JSON.stringify({
                 status,

@@ -74,11 +74,13 @@ const Tiptap = () => {
                 toast.success("Post created successfully")
                 router.push('/home')
             }
-        } catch (error: any) {
-            if (error?.response?.status == 401) {
-                router.push('/auth/sign-in')
-            } else {
-                toast.error(error?.response?.data.message)
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                if (error?.response?.status == 401) {
+                    router.push('/auth/sign-in')
+                } else {
+                    toast.error(error?.response?.data.message)
+                }
             }
         } finally {
             setIsLoading(false)

@@ -20,13 +20,13 @@ export const { handlers, signIn, signOut } = NextAuth({
                 token.email = profile?.email
                 token.name = profile?.name
                 token.picture = profile?.picture
-                token.userId = profile?.sub
+                token.userId = profile?.sub!
             }
             return token
         },
-        async session({ session, token }: string | any ) {
-            session.user.id = token.userId
-            session.accessToken = token.accessToken
+        async session({ session, token }) {
+            session.user.id = token.userId!
+            session.accessToken = token.accessToken!
             session.refreshToken = token.refreshToken
             session.idToken = token.idToken
             session.expiresAt = token.expiresAt

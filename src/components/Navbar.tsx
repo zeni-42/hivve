@@ -14,7 +14,7 @@ const Navbar = React.memo(function Navbar (){
 
     useEffect(() => {
         hydrate()
-    }, [])
+    }, [hydrate])
 
     return (
         <>
