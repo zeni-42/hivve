@@ -8,7 +8,6 @@ import { useUserStore } from "@/store/user.store";
 import Image from "next/image";
 import { Images, ThumbsUp} from "lucide-react";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
 
 export default function Page(){
     const { avatar, setData } = useUserStore()
@@ -108,7 +107,7 @@ const handleUpdateLike = async (id: string) => {
 
     return (
         <>
-        <div className={`w-full ${posts.length == 1 ? 'h-[calc(100vh-4rem)]' : 'h-auto'} bg-zinc-100 flex flex-col justify-start items-center py-5 `}>
+        <div className={`w-full h-[calc(100vh-4rem)] bg-zinc-100 flex flex-col justify-start items-center py-5 `}>
             {
                 role == "None" ? (
                 <>
@@ -139,7 +138,7 @@ const handleUpdateLike = async (id: string) => {
             {
                 isLoading ? (
                     <div className="text-zinc-500 mt-5">Loading posts...</div>
-                ) : posts?.length > 0 ? (
+                ) : posts?.length >= 0 ? (
                     <div className="w-2/6 mt-5 flex flex-col gap-5">
                         {posts.map((post: any) => (
                             <div key={post._id} className="w-full bg-white p-5 rounded-lg shadow-sm">

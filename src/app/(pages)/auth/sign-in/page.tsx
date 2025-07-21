@@ -12,7 +12,6 @@ export default function Page(){
     const [ isLoading, setIsLoading ] = useState(false)
     const { register, handleSubmit, reset } = useForm()
 
-
     const handleRegisterUser = async (data:any) => {
         setIsLoading(true)
         try {
@@ -36,8 +35,8 @@ export default function Page(){
         <>
         <div className="w-full h-screen flex justify-center items-center" >
             <div className="w-1/3 h-2/3 shadow-md border border-zinc-300 rounded-xl" >
-                <form action="" className="w-full  h-full flex justify-center items-center flex-col py-10 gap-5 ">
-                    <h1 className="text-2xl font-medium" >Login into your account</h1>
+                    <form action="" className="w-full  h-full flex justify-center items-center flex-col py-10 gap-5 ">
+                        <h1 className="text-2xl font-medium" >Login into your account</h1>
                         <div className="flex flex-col w-4/5 h-auto justify-center " >
                             <label htmlFor="">Email</label>
                             <input type="email" autoComplete="off" {...register("email")} className="w-full h-12 border border-zinc-500 rounded outline-none px-3 text-lg" />
@@ -50,7 +49,7 @@ export default function Page(){
                         <div className="w-4/5 h-auto justify-between items-center" >
                             <p>Don't have an account ?<Link href={'/auth/sign-up'} className="text-blue-600 " > Sign up</Link> </p>
                         </div>
-                </form>
+                    </form>
             </div>
         </div>
         </>
