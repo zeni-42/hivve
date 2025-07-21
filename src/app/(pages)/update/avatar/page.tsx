@@ -11,7 +11,6 @@ import { toast } from "react-toastify"
 export default function Page(){
     const router = useRouter()
     const avatar = useUserStore((s) => s.avatar)
-    const [userId, setUserId] = useState('')
     const [isLoading, setIsLoading] = useState(false)
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
     const { setAvatar } = useUserStore()
@@ -31,10 +30,12 @@ export default function Page(){
             setIsLoading(true)
             const form = new FormData()
             form.append("image", selectedFile)
-            form.append("userId", userId)
             const res = await axios.post('/api/v1/user/upload/avatar', form)
             if (res.status == 200) {
-                localStorage.setItem("avatar", res.data?.data?.avatar)
+                const user = {
+                    avatar: res.data?.data?.avatar
+                }
+                localStorage.setItem(`hivve_user_${res.data?.data?.userId}`, JSON.stringify(user))
                 toast.success("Profile picture updated")
                 router.push('/update/banner')
             }
@@ -48,12 +49,6 @@ export default function Page(){
             setIsLoading(false)
         }
     }
-
-    useEffect(() => {
-        const storedUserId = localStorage.getItem('userId')!
-        setUserId(storedUserId)
-    }, [])
-
     return(
         <>
         <div className="w-full h-screen">

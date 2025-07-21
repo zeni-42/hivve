@@ -6,17 +6,34 @@ import ResponseHelper from "@/utils/ResponseHelper";
 import { unlinkSync, writeFileSync } from "fs";
 import { cookies } from "next/headers";
 import path from "path";
+import jwt from "jsonwebtoken"
 
 export async function POST(req: Request) {
     const cookie = await cookies()
-    const token = cookie.get("accessToken")
+    const token = cookie.get("accessToken")?.value
     if (!token) {
         return ResponseHelper.error("Unauthorized access", 401)
     }
 
+    const secret = process.env.ACCESS_SECRET as string;
+    if (!secret) {
+        return ResponseHelper.error("Server error: JWT secret not configured", 500);
+    }
+
+    let decodedToken: any;
+    try {
+        decodedToken = jwt.verify(token, secret);
+    } catch (error) {
+        return ResponseHelper.error("Invalid or expired token", 401);
+    }
+
+    const userId = decodedToken?._id;
+    if (!userId) {
+        return ResponseHelper.error("Invalid token payload", 400);
+    }
+
     const formData = await req.formData()
     const bannerImage =formData.get("banner") as File
-    const userId = formData.get("userId") as string
     
     if (!(bannerImage && userId)) {
         return ResponseHelper.error("Missing values")
@@ -46,7 +63,7 @@ export async function POST(req: Request) {
             { banner: result.secure_url }
         )
 
-        return ResponseHelper.success({ banner: user?.banner }, "Banner updated successfully", 200)
+        return ResponseHelper.success({ userId: user?._id, banner: user?.banner }, "Banner updated successfully", 200)
 
     } catch (error: any) {
         logger(error.message, 'Failed to update banner', 'warn')

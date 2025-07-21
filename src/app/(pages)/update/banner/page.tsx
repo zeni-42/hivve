@@ -13,7 +13,6 @@ export default function Page(){
     const { setBanner } = useUserStore()
     const [selectedFile, setSelectedFile] = useState()
     const [ isLoading, setIsLoading ] = useState(false)
-    const [userId, setUserId] = useState('')
 
     const handleFileChange = (e: React.ChangeEvent<HTMLFormElement>) => {
         const file = e.target.files?.[0];
@@ -30,10 +29,12 @@ export default function Page(){
             setIsLoading(true)
             const fromData = new FormData()
             fromData.append("banner", selectedFile)
-            fromData.append("userId", userId)
             const res = await axios.post('/api/v1/user/upload/banner', fromData)
             if (res.status == 200) {
-                localStorage.setItem("banner", res.data?.data?.banner)
+                const existingUserData = localStorage.getItem(`hivve_user_${res.data?.data?.userId}`)
+                let newData = existingUserData ? JSON.parse(existingUserData) : {}
+                newData.banner = res.data?.data?.banner
+                localStorage.setItem(`hivve_user_${res.data?.data?.userId}`, JSON.stringify(newData))
                 await axios.post('/api/v1/user/update/newbie')
                 router.push('/home')
             }
@@ -47,11 +48,6 @@ export default function Page(){
             setIsLoading(false)
         }
     }
-
-    useEffect(() => {
-        const storedUserId = localStorage.getItem("userId")!
-        setUserId(storedUserId)
-    }, [])
 
     return (
         <>

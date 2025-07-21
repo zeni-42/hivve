@@ -13,7 +13,6 @@ export default function Page(){
     const fetchJobData = async () => {
         try {
             const res = await axios.get('/api/v1/jobs')
-            console.log(res.data?.data);
             if (res.status == 200) {
                 setJobs(res.data?.data)
             }

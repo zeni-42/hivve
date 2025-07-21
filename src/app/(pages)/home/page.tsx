@@ -21,10 +21,15 @@ export default function Page(){
         try {
             const res = await axios.get('/api/v1/user')
             if (res.status == 200) {
-                localStorage.setItem("fullName", res.data?.data[0]?.fullName)
-                localStorage.setItem("email", res.data?.data[0]?.email)
-                localStorage.setItem("avatar", res.data?.data[0]?.avatar)
-                localStorage.setItem("banner", res.data?.data[0]?.banner)
+                let existingData = localStorage.getItem(`hivve_user_${res.data?.data[0]?._id}`)
+                const newData = existingData ? JSON.parse(existingData) : console.log("No existing user found")
+
+                newData.fullName = res.data?.data[0]?.fullName,
+                newData.email = res.data?.data[0]?.email
+                newData.id = res.data?.data[0]?._id
+
+                localStorage.setItem(`hivve_user_${res.data?.data[0]?._id}`, JSON.stringify(newData))
+
                 setData(res.data?.data[0]?.userId, res.data?.data[0]?.fullName, res.data?.data[0]?.email, res.data?.data[0]?.avatar, res.data?.data[0]?.banner)
                 setRole(res.data?.data[0]?.role)
             }

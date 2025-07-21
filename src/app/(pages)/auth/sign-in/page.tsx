@@ -17,11 +17,9 @@ export default function Page(){
         try {
             const response = await axios.post('/api/v1/user/sign-in', data);
             if (response.status == 200 && response.data?.data?.isNewbie == false) {
-                localStorage.setItem("userId", response.data?.data?._id)
                 reset()
                 router.push('/home')
             } else if (response.status == 200 && response.data?.data?.isNewbie == true) {
-                localStorage.setItem("userId", response.data?.data?._id)
                 router.push('/update/avatar')
             }
         } catch (error: any) {
