@@ -19,8 +19,10 @@ export default function Page(){
             if (response.status == 200 && response.data?.data?.isNewbie == false) {
                 reset()
                 router.push('/home')
+                localStorage.setItem("hivve_user_credentials", response.data?.data?._id)
             } else if (response.status == 200 && response.data?.data?.isNewbie == true) {
                 router.push('/update/avatar')
+                localStorage.setItem("hivve_user_credentials", response.data?.data?._id)
             }
         } catch (error: any) {
             toast.error(error.response.data.message)

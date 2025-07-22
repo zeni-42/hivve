@@ -48,12 +48,21 @@ export const useUserStore = create<userState>((set) => ({
         }))
     },
     hydrate: () => {
-        set(() => ({
-            userId: localStorage.getItem('userId') || '',
-            fullName: localStorage.getItem('fullName') || '',
-            email: localStorage.getItem('email') || '',
-            avatar: localStorage.getItem('avatar') || '',
-            banner: localStorage.getItem('banner') || '',
-        }))
+        const userId = localStorage.getItem(`hivve_user_credentials`) 
+        const userData = localStorage.getItem(`hive_user_${userId}`);
+        if (userData) {
+            try {
+                const parsedData = JSON.parse(userData)
+                set(() => ({
+                    userId: parsedData.id,
+                    fullName: parsedData.fullName,
+                    email: parsedData.email,
+                    avatar: parsedData.avatar,
+                    banner: parsedData.banner,
+                }))
+            } catch (error) {
+                
+            }
+        }
     }
 })) 

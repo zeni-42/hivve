@@ -32,10 +32,6 @@ export default function Page(){
             form.append("image", selectedFile)
             const res = await axios.post('/api/v1/user/upload/avatar', form)
             if (res.status == 200) {
-                const user = {
-                    avatar: res.data?.data?.avatar
-                }
-                localStorage.setItem(`hivve_user_${res.data?.data?.userId}`, JSON.stringify(user))
                 toast.success("Profile picture updated")
                 router.push('/update/banner')
             }

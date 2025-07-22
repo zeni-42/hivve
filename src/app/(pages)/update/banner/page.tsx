@@ -31,10 +31,6 @@ export default function Page(){
             fromData.append("banner", selectedFile)
             const res = await axios.post('/api/v1/user/upload/banner', fromData)
             if (res.status == 200) {
-                const existingUserData = localStorage.getItem(`hivve_user_${res.data?.data?.userId}`)
-                let newData = existingUserData ? JSON.parse(existingUserData) : {}
-                newData.banner = res.data?.data?.banner
-                localStorage.setItem(`hivve_user_${res.data?.data?.userId}`, JSON.stringify(newData))
                 await axios.post('/api/v1/user/update/newbie')
                 router.push('/home')
             }

@@ -8,7 +8,7 @@ import { toast } from "react-toastify"
 
 export default function Page(){
     const router = useRouter()
-    const [ jobs, setJobs ] = useState([])
+    const [jobs, setJobs] = useState([])
 
     const fetchJobData = async () => {
         try {
@@ -60,8 +60,7 @@ export default function Page(){
                     ))
                 ) : (
                     <p>No available jobs right now</p>
-                )
-                }
+                )}
             </div>
         </div>
         </>
