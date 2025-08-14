@@ -111,7 +111,7 @@ const handleUpdateLike = async (id: string) => {
 
     return (
         <>
-        <div className={`w-full h-[calc(100vh-4rem)] bg-zinc-100 flex flex-col justify-start items-center py-5 `}>
+        <div className={`w-full h-auto bg-zinc-100 flex justify-start items-center py-5 px-60 gap-10 `}>
             {
                 role == "None" ? (
                 <>
@@ -124,86 +124,94 @@ const handleUpdateLike = async (id: string) => {
                 </div>
                 </>) : (null)
             }
-            <div className={`w-2/6 h-auto p-5 bg-white flex flex-col justify-center items-center gap-5 rounded-lg`} >
-                <div className="w-full flex justify-center items-center gap-5" >
-                    {
-                        avatar ? (
-                            <Image src={avatar} alt="avatar" width={60} height={60} className="size-12 rounded-full object-cover" />
-                        ) : (
-                            null
-                        )
-                    }
-                    <button onClick={() => router.push('/create/post')} className="cursor-pointer border-zinc-400 border outline-none w-4/5 h-12 rounded-xl px-5 flex justify-start items-center text-zinc-500">Whats going on in there ?</button>
-                    <button onClick={() => router.push('/create/post')} className="cursor-pointer size-10 flex justify-center items-center" >
-                        <Images className="text-zinc-500 cursor-pointer "/>
-                    </button>
-                </div>
+            <div className="w-1/4 bg-red-400 h-[70vh]" >
+                this is a Profile section
             </div>
-            {
-                isLoading ? (
-                    <div className="text-zinc-500 mt-5">Loading posts...</div>
-                ) : posts?.length > 0 ? (
-                    <div className="w-2/6 mt-5 flex flex-col gap-5">
-                        {posts.map((post: any) => (
-                            <div key={post._id} className="w-full bg-white p-5 rounded-lg shadow-sm">
-                                <div className="flex items-center gap-4 mb-3">
-                                    {post.userObj?.avatar && (
-                                        <Link href={`/user/${post?._id}`} >
+            <div className="w-1/2 h-[100vh] flex justify-start items-center flex-col bg-red-500 ">
+                <div className={`shadow w-full h-auto p-5 bg-white flex flex-col justify-center items-center gap-5 rounded-lg`} >
+                    <div className="w-full flex justify-center items-center gap-5" >
+                        {
+                            avatar ? (
+                                <Image src={avatar} alt="avatar" width={60} height={60} className="size-12 rounded-full object-cover" />
+                            ) : (
+                                null
+                            )
+                        }
+                        <button onClick={() => router.push('/create/post')} className="cursor-pointer border-zinc-400 border outline-none w-4/5 h-12 rounded-xl px-5 flex justify-start items-center text-zinc-500">Whats going on in there ?</button>
+                        <button onClick={() => router.push('/create/post')} className="cursor-pointer size-10 flex justify-center items-center" >
+                            <Images className="text-zinc-500 cursor-pointer "/>
+                        </button>
+                    </div>
+                </div>
+                {
+                    isLoading ? (
+                        <div className="text-zinc-500 mt-5">Loading posts...</div>
+                    ) : posts?.length > 0 ? (
+                        <div className="w-full mt-5 flex flex-col gap-5">
+                            {posts.map((post: any) => (
+                                <div key={post._id} className="w-full bg-white p-5 rounded-lg shadow-sm">
+                                    <div className="flex items-center gap-4 mb-3">
+                                        {post.userObj?.avatar && (
+                                            <Link href={`/user/${post?._id}`} >
+                                            <Image
+                                                src={post.userObj.avatar}
+                                                alt="user avatar"
+                                                width={40}
+                                                height={40}
+                                                className="size-10 rounded-full object-cover"
+                                                />
+                                            </Link>
+                                        )}
+                                        <div>
+                                            <p className="font-medium text-sm">{post.userObj?.fullName || "Unknown User"}</p>
+                                            <p className="text-xs text-zinc-500">{new Date(post.createdAt).toLocaleString()}</p>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        className="text-base text-zinc-700 mb-2 w-full"
+                                        dangerouslySetInnerHTML={{ __html: post.content }}
+                                        ></div>
+
+                                    <div className="w-full flex justify-center items-center" >
+                                    {post.images ? (
                                         <Image
-                                            src={post.userObj.avatar}
-                                            alt="user avatar"
-                                            width={40}
-                                            height={40}
-                                            className="size-10 rounded-full object-cover"
-                                            />
-                                        </Link>
-                                    )}
-                                    <div>
-                                        <p className="font-medium text-sm">{post.userObj?.fullName || "Unknown User"}</p>
-                                        <p className="text-xs text-zinc-500">{new Date(post.createdAt).toLocaleString()}</p>
+                                        src={post.images}
+                                        alt="post image"
+                                        width={500}
+                                        height={300}
+                                        className="w-full rounded-lg object-cover mt-2"
+                                        />
+                                    ): null}
+                                    </div>
+
+                                    <div className="w-full mt-5 flex justify-start items-center gap-5">
+                                    <button
+                                        onClick={() => handleUpdateLike(post._id)}
+                                        className={`w-20 border ${likedPosts.includes(post._id)
+                                            ? "bg-blue-500 text-white border-none"
+                                            : ""} border-zinc-300 h-10 gap-3 rounded flex justify-center items-center cursor-pointer`} >                                        
+                                        <ThumbsUp />
+                                    </button>
+                                    <input
+                                        type="text"
+                                        className="w-2/3 h-10 border border-zinc-300 outline-none px-5 rounded"
+                                        placeholder="Share your thoughts" />
+                                    <button className="w-32 h-10 text-white bg-blue-600 rounded cursor-pointer">
+                                        Send
+                                    </button>
                                     </div>
                                 </div>
-
-                                <div
-                                    className="text-base text-zinc-700 mb-2 w-full"
-                                    dangerouslySetInnerHTML={{ __html: post.content }}
-                                ></div>
-
-                                <div className="w-full flex justify-center items-center" >
-                                {post.images ? (
-                                    <Image
-                                    src={post.images}
-                                    alt="post image"
-                                    width={500}
-                                    height={300}
-                                    className="w-full rounded-lg object-cover mt-2"
-                                    />
-                                ): null}
-                                </div>
-
-                                <div className="w-full mt-5 flex justify-start items-center gap-5">
-                                <button
-                                    onClick={() => handleUpdateLike(post._id)}
-                                    className={`w-20 border ${likedPosts.includes(post._id)
-                                        ? "bg-blue-500 text-white border-none"
-                                        : ""} border-zinc-300 h-10 gap-3 rounded flex justify-center items-center cursor-pointer`} >                                        
-                                    <ThumbsUp />
-                                </button>
-                                <input
-                                    type="text"
-                                    className="w-2/3 h-10 border border-zinc-300 outline-none px-5 rounded"
-                                    placeholder="Share your thoughts" />
-                                <button className="w-32 h-10 text-white bg-blue-600 rounded cursor-pointer">
-                                    Send
-                                </button>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                ) : (
-                    <div className="text-zinc-500 mt-5">No posts found.</div>
-                )
-            }
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-zinc-500 mt-5">No posts found.</div>
+                    )
+                }
+        </div>
+        <div className="w-1/4 bg-red-500 " >
+            this is a sponsers section
+        </div>
         </div>
         </>
     )
