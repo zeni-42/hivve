@@ -14,13 +14,11 @@ import {
     CheckCircle,
     Star,
     ArrowRight,
-    Github,
-    Mail,
-    Twitter,
     BarChart3,
     Network,
 } from "lucide-react"
-import { motion } from "framer-motion"
+import { motion } from "motion/react"
+import { useRouter } from "next/navigation"
 
 const fadeInUp = {
     initial: { opacity: 0, y: 60 },
@@ -40,6 +38,8 @@ const scaleOnHover = {
 }
 
 export default function LandingPage() {
+    const router = useRouter()
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
         {/* Navigation */}
@@ -65,10 +65,10 @@ export default function LandingPage() {
                 <a href="#testimonials" className="text-gray-600 hover:text-blue-600 transition-colors">
                     Stories
                 </a>
-                <Button variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50 bg-transparent">
+                <Button variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50 bg-transparent cursor-pointer" onClick={() => router.push('/auth/signin')} >
                     Sign In
                 </Button>
-                <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+                <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 cursor-pointer" onClick={() => router.push('/auth/signup')} >
                     Get Started
                 </Button>
                 </div>
@@ -102,8 +102,8 @@ export default function LandingPage() {
                 </div>
 
                 <motion.div className="flex flex-col sm:flex-row gap-4" variants={staggerContainer} initial="initial" animate="animate">
-                    <motion.div variants={fadeInUp} {...scaleOnHover}>
-                        <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-lg px-8 py-4">
+                    <motion.div variants={fadeInUp}>
+                        <Button size="lg" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-lg px-8 py-4 cursor-pointer" onClick={() => router.push("/auth/signup")} >
                         Start Your Journey
                         <ArrowRight className="ml-2 h-5 w-5" />
                         </Button>
@@ -123,7 +123,7 @@ export default function LandingPage() {
                     {/* Mock app header */}
                     <div className="flex items-center justify-between pb-4 border-b border-gray-100">
                         <div className="flex items-center space-x-3">
-                            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg"></div>
+                            <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-lg text-white flex justify-center items-center font-semibold ">H</div>
                             <span className="font-semibold text-gray-900">Hivve Dashboard</span>
                         </div>
                         <div className="flex space-x-2">
@@ -177,7 +177,7 @@ export default function LandingPage() {
         {/* Features Section */}
         <section id="features" className="py-20 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div {...fadeInUp} className="text-center space-y-4 mb-16">
+            <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} className="text-center space-y-4 mb-16">
                 <h2 className="text-3xl lg:text-5xl font-bold text-gray-900">
                 Everything You Need to{" "}
                 <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
@@ -252,7 +252,7 @@ export default function LandingPage() {
         {/* How It Works Section */}
         <section id="how-it-works" className="py-20 bg-gradient-to-br from-blue-50 to-indigo-50">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div {...fadeInUp} className="text-center space-y-4 mb-16">
+            <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} className="text-center space-y-4 mb-16">
                 <h2 className="text-3xl lg:text-5xl font-bold text-gray-900">
                 How Hivve{" "}
                 <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Works</span>
@@ -323,7 +323,7 @@ export default function LandingPage() {
         {/* Testimonials Section */}
         <section id="testimonials" className="py-20 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div {...fadeInUp} className="text-center space-y-4 mb-16">
+            <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} className="text-center space-y-4 mb-16">
                 <h2 className="text-3xl lg:text-5xl font-bold text-gray-900">
                 Student{" "}
                 <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
@@ -410,7 +410,7 @@ export default function LandingPage() {
         {/* CTA Section */}
         <section className="py-20 bg-gradient-to-br from-blue-600 to-indigo-700">
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <motion.div {...fadeInUp} className="space-y-8">
+            <motion.div initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} className="space-y-8">
                 <h2 className="text-3xl lg:text-5xl font-bold text-white">Ready to Transform Your Career?</h2>
                 <p className="text-xl text-blue-100 max-w-2xl mx-auto">
                 Join thousands of students and professionals who are already building their future with Hivve.
@@ -421,19 +421,10 @@ export default function LandingPage() {
                 initial="initial"
                 animate="animate"
                 >
-                <motion.div variants={fadeInUp} {...scaleOnHover}>
-                    <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 py-4">
+                <motion.div variants={fadeInUp}>
+                    <Button size="lg" className="cursor-pointer bg-white text-blue-600 hover:bg-blue-50 text-lg px-8 py-4" onClick={() => router.push('/auth/signin')} >
                     Get Started Free
                     <ArrowRight className="ml-2 h-5 w-5" />
-                    </Button>
-                </motion.div>
-                <motion.div variants={fadeInUp} {...scaleOnHover}>
-                    <Button
-                    variant="outline"
-                    size="lg"
-                    className="border-blue-300 text-white hover:bg-blue-600 text-lg px-8 py-4 bg-transparent"
-                    >
-                    Schedule Demo
                     </Button>
                 </motion.div>
                 </motion.div>
@@ -461,20 +452,6 @@ export default function LandingPage() {
                     <span className="text-white font-bold text-sm">H</span>
                     </div>
                     <span className="text-xl font-bold">Hivve</span>
-                </div>
-                <p className="text-gray-400 leading-relaxed">
-                    Empowering the next generation of professionals through intelligent networking and career development.
-                </p>
-                <div className="flex space-x-4">
-                    <motion.a href="#" {...scaleOnHover} className="text-gray-400 hover:text-white transition-colors">
-                    <Twitter className="h-5 w-5" />
-                    </motion.a>
-                    <motion.a href="#" {...scaleOnHover} className="text-gray-400 hover:text-white transition-colors">
-                    <Github className="h-5 w-5" />
-                    </motion.a>
-                    <motion.a href="#" {...scaleOnHover} className="text-gray-400 hover:text-white transition-colors">
-                    <Mail className="h-5 w-5" />
-                    </motion.a>
                 </div>
                 </div>
 
@@ -558,7 +535,7 @@ export default function LandingPage() {
             </div>
 
             <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-                <p>&copy; 2024 Hivve. All rights reserved. Built with ❤️ for the next generation of professionals.</p>
+                <p>&copy; 2025 Hivve. All rights reserved.</p>
             </div>
             </div>
         </footer>
