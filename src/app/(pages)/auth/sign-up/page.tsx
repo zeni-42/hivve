@@ -1,4 +1,5 @@
 'use client'
+import GithubAuthButton from "@/components/layout/GithubButton";
 import axios from "axios";
 import { LoaderCircle } from "lucide-react";
 import Link from "next/link";
@@ -51,7 +52,8 @@ export default function Page(){
                         <div className="w-4/5 h-auto justify-between items-center" >
                             <p>Already have an account ?<Link href={'/auth/sign-in'} className="text-blue-600 " > Sign in</Link> </p>
                         </div>
-                </form>
+                    </form>
+                <GithubAuthButton />
             </div>
         </div>
         </>

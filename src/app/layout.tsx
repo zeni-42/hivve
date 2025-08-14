@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Slide, ToastContainer } from "react-toastify";
+import SessionWrapper from "@/components/layout/SessionWrapper";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased `}>
+        <SessionWrapper>
           <ToastContainer autoClose={2000} hideProgressBar={true} transition={Slide} theme="dark" />
           {children}
+        </SessionWrapper>
       </body>
     </html>
   );
