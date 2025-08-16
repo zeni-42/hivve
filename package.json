@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.10",
+    "@radix-ui/react-label": "^2.1.7",
+    "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@tiptap/extension-link": "^2.24.2",
     "@tiptap/extension-underline": "^2.24.2",
